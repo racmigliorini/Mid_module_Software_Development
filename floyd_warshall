@@ -1,0 +1,81 @@
+import itertools
+import sys
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Constants
+NO_PATH = sys.maxsize
+
+# Initialize the graph
+graph = [
+    [0, 7, NO_PATH, 8],
+    [NO_PATH, 0, 5, NO_PATH],
+    [NO_PATH, NO_PATH, 0, 2],
+    [NO_PATH, NO_PATH, NO_PATH, 0]
+]
+
+def floyd_warshall(distance):
+    """Apply Floyd-Warshall algorithm to find shortest paths between all nodes.
+
+    Args:
+    distance: A 2D list representing the adjacency matrix of the graph.
+    """
+    max_length = len(distance)
+    for intermediate, start_node, end_node in itertools.product(range(max_length), repeat=3):
+        if start_node == end_node:
+            distance[start_node][end_node] = 0
+        elif (distance[start_node][intermediate] != NO_PATH and 
+              distance[intermediate][end_node] != NO_PATH):
+            distance[start_node][end_node] = min(
+                distance[start_node][end_node],
+                distance[start_node][intermediate] + distance[intermediate][end_node]
+            )
+
+    # Convert NO_PATH to infinity for visualization
+    for i in range(max_length):
+        for j in range(max_length):
+            if distance[i][j] == NO_PATH:
+                distance[i][j] = float('inf')
+
+def visualize_matrix(matrix, title):
+    """Visualize the given matrix with Matplotlib.
+
+    Args:
+    matrix: A 2D list representing the matrix to visualize.
+    title: A string title for the graph.
+    """
+    fig, ax = plt.subplots(figsize=(10, 10))
+    vis_matrix = np.array(matrix, dtype=float)
+    vis_matrix[vis_matrix == NO_PATH] = float('inf')
+    
+    max_val_for_color = max(filter(np.isfinite, vis_matrix.flatten()), default=1)
+
+    cax = ax.matshow(vis_matrix, cmap="viridis", vmin=0, vmax=max_val_for_color)
+    plt.colorbar(cax)
+
+    for edge in range(len(matrix)+1):
+        ax.axhline(edge-0.5, color='black', linewidth=2)
+        ax.axvline(edge-0.5, color='black', linewidth=2)
+
+    for i in range(len(matrix)):
+        for j in range(len(matrix)):
+            val = vis_matrix[i][j]
+            text = '∞' if np.isinf(val) else f'{int(val)}'
+            text_color = 'black' if np.isinf(val) else 'white'
+            ax.text(j, i, text, va='center', ha='center', color=text_color, fontsize=16)
+
+    ax.set_xticks(np.arange(len(matrix)))
+    ax.set_yticks(np.arange(len(matrix)))
+    ax.set_xticklabels(np.arange(len(matrix)))
+    ax.set_yticklabels(np.arange(len(matrix)))
+
+    plt.xlabel('Destination')
+    plt.ylabel('Source')
+    plt.title(title)
+    plt.show()
+
+# Main execution
+if __name__ == "__main__":
+    visualize_matrix(graph, "Initial Distance Matrix")
+    floyd_warshall(graph)
+    visualize_matrix(graph, "Final Shortest Path Distance Matrix")
