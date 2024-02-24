@@ -2,15 +2,17 @@
 
 ## Overview
 
-This project implements a recursive version of the Floyd-Warshall algorithm for finding the shortest paths in a weighted graph. This approach contrasts with the traditional iterative method, leveraging recursion and memoization to efficiently compute the shortest distances between all pairs of vertices in the graph. Additionally, it incorporates a mechanism to detect negative cycles, which are crucial since they render the shortest path problem unsolvable.
+This project explores two distinct implementations of the Floyd-Warshall algorithm to determine the shortest paths within a weighted graph: an iterative approach and a recursive approach. The iterative method follows the classic algorithmic structure, systematically updating the shortest paths matrix in a series of loops. In contrast, the recursive approach capitalizes on the elegance of recursion coupled with memoization to compute the distances, potentially offering performance benefits in certain scenarios.
+
+Both versions are designed to handle the challenges posed by negative cycles; they include checks to identify such cycles, which are pivotal in assessing the feasibility of finding a solution to the shortest path problem. The project's objective is to compare the performance and efficiency of the iterative and recursive methods, providing insight into their behavior under various graph conditions. The findings aim to inform the selection of an appropriate algorithmic strategy based on the specific requirements and characteristics of the graph in question.
 
 ## Features
 
-- Recursive Implementation: Showcases a unique recursive solution to the shortest path problem, diverging from the conventional iterative dynamic programming methods.
-- Memoization: Enhances computational efficiency by caching intermediate results, thus eliminating the need for recalculating solutions for previously solved subproblems.
-- Negative Cycle Detection: Capable of identifying negative cycles within the graph, an essential feature for determining the feasibility of computing shortest paths.
-- Visualization: Offers a visualization tool for the initial and final distance matrices, aiding in the intuitive understanding of the algorithm's results.
-- Test Cases: Comes with a variety of test scenarios to verify the algorithm's accuracy across different types of graph configurations, including graphs with positive weights, negative weights, and negative cycles.
+- Recursive vs Iterative Implementation: Implements both recursive and iterative solutions to the shortest path problem, allowing for direct comparison of these approaches and demonstrating the unique characteristics of each.
+- Efficient Memoization: Utilizes memoization in the recursive implementation to enhance computational efficiency by storing intermediate results. This optimization reduces the algorithm's time complexity by preventing redundant calculations.
+- Robust Negative Cycle Detection: Equipped with a robust mechanism to detect negative cycles, a critical feature that assesses whether shortest paths can be reliably computed or if the graph contains unsolvable scenarios.
+- Intuitive Visualization: Integrates a visualization component that graphically represents the initial and final state of distance matrices. This visual aid facilitates an intuitive grasp of the transformations the algorithm performs on the graph.
+- Comprehensive Test Suite: Includes an extensive suite of test cases, designed to validate the algorithm's performance and correctness across diverse graph topologies and edge conditions, encompassing graphs with positive weights, negative weights, and the presence of negative cycles.
 
 ## Requirements
 The project is developed in Python and requires Python 3.x for execution.
@@ -33,13 +35,16 @@ cd Mid_module_Software_Development
 3 - Install the required dependencies (assuming you have Python and pip installed):
 
 ---------------------------------------------------
-pip install matplotlib numpy
+**pip install matplotlib numpy**
+
+Note: Ensure you have the latest version of pip to avoid any installation issues. If you encounter any, try upgrading pip using pip install --upgrade pip and then rerun the dependency installation commands.
 ---------------------------------------------------
 
 4 - Run the script to see the algorithm in action. Modify the graph in the script to test different scenarios:
 
 ---------------------------------------------------
-python floyd_warshall_recursive.py
+python Floyd-Iterative.py
+python Floyd-Recursive.py
 ---------------------------------------------------
 
 ## Installation
