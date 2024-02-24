@@ -36,37 +36,71 @@ cd Mid_module_Software_Development
 
 ---------------------------------------------------
 **pip install matplotlib numpy**
-
-Note: Ensure you have the latest version of pip to avoid any installation issues. If you encounter any, try upgrading pip using pip install --upgrade pip and then rerun the dependency installation commands.
 ---------------------------------------------------
+Note: Ensure you have the latest version of pip to avoid any installation issues. If you encounter any, try upgrading pip using pip install --upgrade pip and then rerun the dependency installation commands.
+
 
 4 - Run the script to see the algorithm in action. Modify the graph in the script to test different scenarios:
 
 ---------------------------------------------------
-python Floyd-Iterative.py
-python Floyd-Recursive.py
+python Floyd_Iterative.py
+python Floyd_Recursive.py
 ---------------------------------------------------
 
 ## Installation
 No additional installation steps are required beyond the Python environment setup and the installation of dependencies listed in the "Getting Started" section.
 
-## Usage
-Invoke the floyd_warshall_recursive(graph) function with graph being a 2D list representing the graph's adjacency matrix, where float('inf') is used to denote no direct path between two vertices, and negative weights are allowed for edges.
+##Usage
+This package provides two implementations of the Floyd-Warshall algorithm: an iterative approach (Floyd_Iterative) and a recursive approach (Floyd_Recursive). Both functions expect a 2D list representing the graph's adjacency matrix, where NO_PATH (or float('inf')) denotes the absence of a direct path between two vertices.
 
-Example graph definition and function call:
+##Defining the Graph
+First, define your graph as a 2D list, using NO_PATH to represent no direct path between vertices. For example:
 
 ---------------------------------------------------
-graph = [
-    [0, 5, float('inf'), 10],
-    [float('inf'), 0, 3, float('inf')],
-    [float('inf'), float('inf'), 0, 1],
-    [float('inf'), float('inf'), float('inf'), 0]
+import sys
+NO_PATH = sys.maxsize  # Represents no path in the graph
+graph_positive = [
+    [0, 4, NO_PATH, NO_PATH, NO_PATH, 10, NO_PATH, 8],
+    [NO_PATH, 0, 2, NO_PATH, NO_PATH, NO_PATH, NO_PATH, 11],
+    [NO_PATH, NO_PATH, 0, 6, NO_PATH, NO_PATH, NO_PATH, NO_PATH],
+    [NO_PATH, NO_PATH, NO_PATH, 0, 3, NO_PATH, NO_PATH, NO_PATH],
+    [7, NO_PATH, NO_PATH, NO_PATH, 0, NO_PATH, NO_PATH, NO_PATH],
+    [NO_PATH, NO_PATH, NO_PATH, NO_PATH, NO_PATH, 0, 1, NO_PATH],
+    [NO_PATH, NO_PATH, NO_PATH, 5, NO_PATH, 8, 0, NO_PATH],
+    [NO_PATH, NO_PATH, 4, NO_PATH, 2, NO_PATH, NO_PATH, 0]
 ]
+---------------------------------------------------
 
-result, has_negative_cycle = floyd_warshall_recursive(graph)
-print(result)
+##Using the Iterative Approach
+To use the iterative version of the algorithm, import and invoke the Floyd_Iterative function:
 
 ---------------------------------------------------
+from Floyd_Iterative import floyd_warshall_iterative
+result_iterative, has_negative_cycle_iterative, execution_time_iterative, memory_usage_iterative, iterations_iterative = floyd_warshall_iterative(graph_positive)
+print("Iterative Result:")
+print(result_iterative)
+print("Negative Cycle Detected:", has_negative_cycle_iterative)
+print(f"Execution Time: {execution_time_iterative} seconds")
+print(f"Memory Usage: {memory_usage_iterative} bytes")
+print(f"Iterations: {iterations_iterative}")
+---------------------------------------------------
+
+##Using the Recursive Approach
+For the recursive version of the algorithm, import and invoke the Floyd_Recursive function:
+
+---------------------------------------------------
+from Floyd_Recursive import floyd_warshall_recursive  # Ensure this matches your script's name
+result_recursive, has_negative_cycle_recursive, execution_time_recursive, memory_usage_recursive = floyd_warshall_recursive(graph_positive)
+print("Recursive Result:")
+if has_negative_cycle_recursive:
+    print("Negative cycle detected. No shortest path matrix available.")
+else:
+    for row in result_recursive:
+        print(row)
+print("Execution Time:", execution_time_recursive, "seconds")
+print("Memory Usage:", memory_usage_recursive, "bytes")
+---------------------------------------------------
+Both functions will return a tuple containing the result matrix and a boolean indicating whether a negative cycle exists within the graph.
 
 ## License
 This project is open-source and available under the MIT License. See the LICENSE file in the repository for more details.
